@@ -39,7 +39,11 @@ func createUser(c echo.Context) error {
 	}
 	uuid := uuid.New()
 	user.ID = uuid.String()
-	return c.JSON(http.StatusCreated, user)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"isSuccess": true,
+		"message":   "success",
+		"data":      user,
+	})
 }
 
 func getUserByID(c echo.Context) error {
