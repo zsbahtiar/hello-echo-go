@@ -25,6 +25,7 @@ func main() {
 	})
 
 	server.POST("/users", createUser)
+	server.GET("/users/:id", getUserByID)
 
 	if err := server.Start(":8080"); err != nil {
 		log.Fatal(err)
@@ -39,4 +40,19 @@ func createUser(c echo.Context) error {
 	uuid := uuid.New()
 	user.ID = uuid.String()
 	return c.JSON(http.StatusCreated, user)
+}
+
+func getUserByID(c echo.Context) error {
+	id := c.Param("id")
+	user := &User{
+		ID:    id,
+		Name:  "bob",
+		Email: "bob@mail.com",
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"isSuccess": true,
+		"message":   "success",
+		"data":      user,
+	})
 }
