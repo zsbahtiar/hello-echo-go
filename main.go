@@ -27,6 +27,7 @@ func main() {
 	server.POST("/users", createUser)
 	server.GET("/users/:id", getUserByID)
 	server.GET("/users", getUsers)
+	server.DELETE("/users/:id", deleteUser)
 
 	if err := server.Start(":8080"); err != nil {
 		log.Fatal(err)
@@ -80,5 +81,16 @@ func getUsers(c echo.Context) error {
 		"isSuccess": true,
 		"message":   "success",
 		"data":      users,
+	})
+}
+
+func deleteUser(c echo.Context) error {
+	id := c.Param("id")
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"isSuccess": true,
+		"message":   "success",
+		"data": map[string]interface{}{
+			"id": id,
+		},
 	})
 }
