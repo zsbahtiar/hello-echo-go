@@ -26,6 +26,7 @@ func main() {
 
 	server.POST("/users", createUser)
 	server.GET("/users/:id", getUserByID)
+	server.GET("/users", getUsers)
 
 	if err := server.Start(":8080"); err != nil {
 		log.Fatal(err)
@@ -58,5 +59,26 @@ func getUserByID(c echo.Context) error {
 		"isSuccess": true,
 		"message":   "success",
 		"data":      user,
+	})
+}
+
+func getUsers(c echo.Context) error {
+	users := []*User{
+		{
+			ID:    uuid.New().String(),
+			Name:  "bob",
+			Email: "bob@mail.com",
+		},
+		{
+			ID:    uuid.New().String(),
+			Name:  "alice",
+			Email: "alice@mail.com",
+		},
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"isSuccess": true,
+		"message":   "success",
+		"data":      users,
 	})
 }
