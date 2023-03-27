@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/zsbahtiar/hello-echo-go/internal/core/usecase"
 	"github.com/zsbahtiar/hello-echo-go/internal/handler"
-	"github.com/zsbahtiar/hello-echo-go/internal/usecase"
 )
 
 type Route struct {

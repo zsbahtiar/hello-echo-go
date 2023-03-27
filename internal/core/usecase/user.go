@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/zsbahtiar/hello-echo-go/internal/entity"
+	"github.com/zsbahtiar/hello-echo-go/internal/core/entity"
 )
 
 type userUsecase struct{}

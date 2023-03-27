@@ -5,8 +5,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	"github.com/zsbahtiar/hello-echo-go/internal/entity"
-	"github.com/zsbahtiar/hello-echo-go/internal/usecase"
+	"github.com/zsbahtiar/hello-echo-go/internal/core/entity"
+	"github.com/zsbahtiar/hello-echo-go/internal/core/usecase"
 )
 
 type userHandler struct {
