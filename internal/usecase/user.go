@@ -1,9 +1,10 @@
 package usecase
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/zsbahtiar/hello-echo-go/internal/entity"
-	"golang.org/x/net/context"
 )
 
 type userUsecase struct{}
