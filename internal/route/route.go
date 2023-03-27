@@ -5,6 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/zsbahtiar/hello-echo-go/internal/handler"
+	"github.com/zsbahtiar/hello-echo-go/internal/usecase"
 )
 
 type Route struct {
@@ -16,7 +17,9 @@ func NewRouter(server *echo.Echo) *Route {
 }
 
 func (r *Route) Register() {
-	userHandler := handler.NewUserHandler()
+	userUsecase := usecase.NewUserUsecase()
+
+	userHandler := handler.NewUserHandler(userUsecase)
 
 	r.server.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]interface{}{

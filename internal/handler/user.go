@@ -5,13 +5,12 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"github.com/zsbahtiar/hello-echo-go/internal/entity"
+	"github.com/zsbahtiar/hello-echo-go/internal/usecase"
 )
 
-type userHandler struct{}
-type User struct {
-	ID    string `json:"id"`
-	Name  string `json:"name" form:"name"`
-	Email string `json:"email" form:"email"`
+type userHandler struct {
+	userUc usecase.UserUsecase
 }
 
 type UserHandler interface {
@@ -21,27 +20,35 @@ type UserHandler interface {
 	DeleteUser(ctx echo.Context) error
 }
 
-func NewUserHandler() UserHandler {
-	return &userHandler{}
+func NewUserHandler(userUc usecase.UserUsecase) UserHandler {
+	return &userHandler{userUc: userUc}
 }
 
 func (h *userHandler) CreateUser(c echo.Context) error {
-	user := new(User)
+	user := new(entity.User)
 	if err := c.Bind(user); err != nil {
 		return err
 	}
-	uuid := uuid.New()
-	user.ID = uuid.String()
+
+	resp, err := h.userUc.CreateUser(c.Request().Context(), user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"isSuccess": true,
+			"message":   "failed to create user",
+			"error":     err.Error(),
+		})
+	}
 	return c.JSON(http.StatusCreated, map[string]interface{}{
 		"isSuccess": true,
-		"message":   "success",
-		"data":      user,
+		"message":   "success create user",
+		"data":      resp,
 	})
+
 }
 
 func (h *userHandler) GetUserByID(c echo.Context) error {
 	id := c.Param("id")
-	user := &User{
+	user := &entity.User{
 		ID:    id,
 		Name:  "bob",
 		Email: "bob@mail.com",
@@ -55,7 +62,7 @@ func (h *userHandler) GetUserByID(c echo.Context) error {
 }
 
 func (h *userHandler) GetUsers(c echo.Context) error {
-	users := []*User{
+	users := []*entity.User{
 		{
 			ID:    uuid.New().String(),
 			Name:  "bob",
